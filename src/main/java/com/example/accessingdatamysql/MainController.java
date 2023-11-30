@@ -37,15 +37,13 @@ public class MainController {
 
   @GetMapping(path="/{id}")
   public @ResponseBody AppUser getOne(@PathVariable Integer id) {
-
       return appUserRepository.findById(id)
-          .map(user -> user) // .map(quote -> new QuoteResource(quote, "success"))
-          .orElse(new AppUser()); // .orElse(new QuoteResource(NONE, "Quote " + id + " does not exist"));
+          .map(user -> user)
+          .orElse(new AppUser());
   }
 
   @GetMapping(path="/hello")
   public @ResponseBody String sayHello() {
       return "Hello from MainController";
   }
-
 }
