@@ -26,48 +26,39 @@ import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MainControllerTests {
+public class AppUserControllerTests {
     
     // these tests do not start the server at all but test only the layer below that
-	@Autowired 	private MockMvc mockMvc;
+    @Autowired 	private MockMvc mockMvc;
     @MockBean 	private AppUserRepository appUserRepository;
 
 
     @Test
-	void shouldReturnSavedMessage() throws Exception {
-        when(appUserRepository.save(any(AppUser.class)))
-                .thenAnswer(i -> i.getArguments()[0]);
-		this.mockMvc.perform(post("/demo/add?name=AnyName&email=anyname@anyemailprovider.com")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Saved")));
-	}
-
-    @Test
-	void shouldReturnIterableOfAppUsers() throws Exception {
-        AppUser oneUser = new AppUser(12, "anyName", "anyEmail@isp.com");
-        AppUser twoUser = new AppUser(86, "Shim Sham", "nosuchemail@isp.org");
+    void shouldReturnIterableOfAppUsers() throws Exception {
+        AppUser oneUser = new AppUser("Any", "Name", "123 Main st.", "Citytown", "1234567890", "anyEmail@isp.com");
+        AppUser twoUser = new AppUser("Shim", "Sham", "23 skidoo", "Shamtown", "4564564567", "nosuchemail@isp.org");
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayList<AppUser> users = new ArrayList<AppUser>();
         users.add(oneUser);
         users.add(twoUser);
         when(appUserRepository.findAll())
                 .thenReturn(users);
-		this.mockMvc.perform(get("/demo/all")).andDo(print()).andExpect(status().isOk())
+                this.mockMvc.perform(get("/contacts/all")).andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(users)));
-	}
+    }
+
 
     @Test
-	void shouldReturnOneAppUser() throws Exception {
+    void shouldReturnOneAppUser() throws Exception {
         Integer idnumber = 2;
-        AppUser testUser = new AppUser(idnumber, "theName", "theEmail");
+        AppUser testUser = new AppUser("theFirstName", "theLastName", "123 main st.", "city", "1234567890", "theEmail");
         when(appUserRepository.findById(any(Integer.class)))
                 .thenReturn(Optional.of(testUser));
-		this.mockMvc.perform(get("/demo/"+idnumber)).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/contacts/" + idnumber)).andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().string(testUser.toString()));
-	}
+    }
 
-    @Test
-	void shouldReturnHelloMessage() throws Exception {
-		this.mockMvc.perform(get("/demo/hello")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Hello from MainController")));
-	}
+
 }

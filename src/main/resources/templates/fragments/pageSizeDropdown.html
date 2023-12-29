@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<body>
+
+<form>
+  <th:block th:fragment="pagesize (pagesize)">
+
+    <label for="pageSizeDropdown" class="col-sm-auto col-form-label">Items per page:</label>
+    <div class="col-sm-auto">
+      <select id="pageSizeDropdown" name="pagesize" th:value="${pagesize}" class="form-select form-select-sm" onchange="this.form.submit()">
+        <option th:each="size : ${ {5, 10, 20, 50, 100} }" th:value="${size}" th:text="${size}" th:selected="${size == pagesize}"></option>
+      </select>
+    </div>
+
+  </th:block>
+</form>
+
+</body>
+</html>

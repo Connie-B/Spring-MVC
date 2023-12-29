@@ -25,17 +25,17 @@ import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
 
-@SpringBootTest(classes=com.example.accessingdatamysql.AccessingDataMysqlApplication.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 public class QuoteControllerTests {
     
     // these tests do not start the server at all but test only the layer below that
-	@Autowired 	private MockMvc mockMvc;
+    @Autowired 	private MockMvc mockMvc;
     @MockBean 	private QuoteRepository quoteRepository;
 
 
     @Test
-	void shouldReturnListOfQuoteResource() throws Exception {
+    void shouldReturnListOfQuoteResource() throws Exception {
         Quote oneQuote = new Quote("To be or not to be");
         Quote twoQuote = new Quote("Be the change");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,46 +43,50 @@ public class QuoteControllerTests {
         theQuotes.add(oneQuote);
         theQuotes.add(twoQuote);
         when(quoteRepository.findAll())
-                .thenReturn(theQuotes);
-		this.mockMvc.perform(get("/quoter/all")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(theQuotes
-                .stream()
-                .map(quote -> new QuoteResource(quote, "success"))
-                .collect(Collectors.toList())
-                )));
-	}
+            .thenReturn(theQuotes);
+	this.mockMvc.perform(get("/quoter/all")).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(theQuotes
+            .stream()
+            .map(quote -> new QuoteResource(quote, "success"))
+            .collect(Collectors.toList())
+        )));
+    }
 
     @Test
-	void shouldReturnOneQuoteResource() throws Exception {
+    void shouldReturnOneQuoteResource() throws Exception {
         Long idnumber = Long.valueOf(14);
         Quote theQuote = new Quote("We are the world");
         ObjectMapper objectMapper = new ObjectMapper();
         when(quoteRepository.findById(any(Long.class)))
-                .thenReturn(Optional.of(theQuote));
-		this.mockMvc.perform(get("/quoter/"+idnumber)).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(Optional.of(theQuote)
-                .map(quote -> new QuoteResource(quote, "success"))
-                .orElse(new QuoteResource(new Quote("None"), "Quote " + idnumber + " does not exist"))
-                )));
-	}
+            .thenReturn(Optional.of(theQuote));
+	this.mockMvc.perform(get("/quoter/"+idnumber)).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(Optional.of(theQuote)
+            .map(quote -> new QuoteResource(quote, "success"))
+            .orElse(new QuoteResource(new Quote("None"), "Quote " + idnumber + " does not exist"))
+        )));
+    }
 
     @Test
-	void shouldReturnOneQuoteResourceToo() throws Exception {
+    void shouldReturnOneQuoteResourceToo() throws Exception {
         Long idnumber = Long.valueOf(74);
         Quote theQuote = new Quote("I'll gladly pay you Tuesday");
         ObjectMapper objectMapper = new ObjectMapper();
         when(quoteRepository.findById(any(Long.class)))
-                .thenReturn(Optional.of(theQuote));
-		this.mockMvc.perform(get("/quoter/random")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(Optional.of(theQuote)
-                .map(quote -> new QuoteResource(quote, "success"))
-                .orElse(new QuoteResource(new Quote("None"), "Quote " + idnumber + " does not exist"))
-                )));
-	}
+            .thenReturn(Optional.of(theQuote));
+        this.mockMvc.perform(get("/quoter/random")).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(Optional.of(theQuote)
+            .map(quote -> new QuoteResource(quote, "success"))
+            .orElse(new QuoteResource(new Quote("None"), "Quote " + idnumber + " does not exist"))
+        )));
+    }
 
     @Test
-	void shouldReturnHelloMessage() throws Exception {
-		this.mockMvc.perform(get("/quoter/hello")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Hello from QuoteController")));
-	}
+    void shouldReturnHelloMessage() throws Exception {
+	 this.mockMvc.perform(get("/quoter/hello")).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().string(containsString("Hello from QuoteController")));
+    }
 }

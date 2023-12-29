@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'listcontacts')}">
+<head>
+</head>
+
+<body>
+<h2>Contacts</h2>
+<br/>
+
+<div class="col-sm-12 mb-3">
+  <a th:href="@{/contacts/new}" class="btn btn-primary">Add New Contact</a>
+</div>
+
+<form id="pageSizeForm" method="get" th:object="${appUser}">
+  <input type="hidden" th:field="*{firstName}" th:value="${appUser.firstName}"/>
+  <input type="hidden" th:field="*{lastName}" th:value="${appUser.lastName}"/>
+  <input type="hidden" th:field="*{address}" th:value="${appUser.address}"/>
+  <input type="hidden" th:field="*{city}" th:value="${appUser.city}"/>
+  <input type="hidden" th:field="*{telephone}" th:value="${appUser.telephone}"/>
+  <input type="hidden" th:field="*{email}" th:value="${appUser.email}"/>
+
+  <div class="row float-end">
+    <th:block th:replace="~{fragments/pageSizeDropdown :: pagesize (${paginated.getSize()})}"></th:block>
+  </div>
+
+  <table id="contacts" class="table table-striped">
+    <thead>
+    <tr>
+      <th style="width: 200px;">Name</th>
+      <th style="width: 250px;">Address</th>
+      <th>City</th>
+      <th>Phone</th>
+      <th style="width: 120px">Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="appuser : ${paginated.getContent()}">
+      <td>
+        <a th:href="@{/contacts/contactDetails/__${appuser.id}__}" th:text="${appuser.firstName + ' ' + appuser.lastName}"/></a>
+      </td>
+      <td th:text="${appuser.address}"/>
+      <td th:text="${appuser.city}"/>
+      <td th:text="${appuser.telephone}"/>
+      <td th:text="${appuser.email}"/>
+    </tr>
+    </tbody>
+  </table>
+
+  <th:block th:replace="~{fragments/pageNavigation :: pagenav ('right', ${paginated.getNumber()+1}, ${paginated.getTotalPages()})}"></th:block>
+</form>
+
+</body>
+</html>

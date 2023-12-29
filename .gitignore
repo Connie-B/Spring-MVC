@@ -36,4 +36,4 @@ build/
 scripts/
 
 ### applications props ###
-src/main/resources/application.properties
+src/main/resources/application-release.properties

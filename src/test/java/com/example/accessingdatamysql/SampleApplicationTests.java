@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class AccessingDataMysqlApplicationTests {
+class SampleApplicationTests {
 
 	@Autowired
-	private MainController controller;
+	private AppUserController controller;
 
 	@Test
 	void contextLoads() throws Exception {
@@ -31,7 +31,7 @@ class AccessingDataMysqlApplicationTests {
 	@Test
 	void greetingShouldReturnDefaultMessage() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",
-				String.class)).contains("Spring test MySQL");
+				String.class)).contains("Simple Spring MVC application");
 	}
 
 
@@ -49,7 +49,7 @@ class AccessingDataMysqlApplicationTests {
 	// @Test
 	// void shouldReturnDefaultMessage() throws Exception {
 	// 	this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
-	// 			.andExpect(content().string(containsString("Spring test MySQL")));
+	// 			.andExpect(content().string(containsString("Simple Spring MVC application")));
 	// }
 
 }

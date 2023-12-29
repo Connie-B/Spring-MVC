@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<body>
+
+<form>
+<th:block th:fragment="pagenav (alignPosition, currentPage, totalPages)">
+
+<!-- < label class="col-sm-auto col-form-label" th:text="'Total Pages: ' + ${totalPages}"></label> -->
+
+  <div th:if="${totalPages > 1}" th:classappend="${'left' == alignPosition} ? 'float' : 'float-end'">
+    <ul class="pagination pagination-sm">
+
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <button onclick="this.form.submit()" name="page" th:value="1" class="page-link" href="#"  title="First">&laquo;</button>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <button onclick="this.form.submit()" name="page" th:value="${currentPage-1}" class="page-link" href="#"  title="Previous">&lsaquo;</button>
+      </li>    
+  
+  
+      <th:block th:if="${totalPages <= 10}">
+        <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item">
+          <span th:if="${i == currentPage}" class="page-link active">[[${i}]]</span>
+          <button th:if="${i != currentPage}" onclick="this.form.submit()" name="page" th:value="${i}" class="page-link">[[${i}]]</button>
+        </li>
+      </th:block>
+
+      
+      <th:block th:if="${totalPages > 10}">
+        <th:block th:if="${currentPage <= 5}"> 
+          <li th:each="i: ${#numbers.sequence(1, 5)}" th:class="${currentPage != i} ? 'page-item' : 'page-item active'">
+            <button onclick="this.form.submit()" name="page" th:value="${i}" class="page-link">[[${i}]]</button>
+          </li>
+          <button onclick="this.form.submit()" name="page" th:value="6" class="page-link">&mldr;</button>
+        </th:block>
+    
+        <th:block th:if="${currentPage > 5 && currentPage < totalPages-4}">
+          <button onclick="this.form.submit()" name="page" th:value="${currentPage-3}" class="page-link">&mldr;</button>
+          <li th:each="i: ${#numbers.sequence(currentPage-2, currentPage+2)}" th:class="${currentPage != i} ? 'page-item' : 'page-item active'">
+            <button onclick="this.form.submit()" name="page" th:value="${i}" class="page-link">[[${i}]]</button>
+          </li>
+            <button onclick="this.form.submit()" name="page" th:value="${currentPage+3}" class="page-link">&mldr;</button>
+        </th:block>
+  
+        <th:block th:if="${currentPage >= totalPages-4}">
+          <button onclick="this.form.submit()" name="page" th:value="${currentPage-3}" class="page-link">&mldr;</button>
+          <li th:each="i: ${#numbers.sequence(currentPage-2, totalPages)}" th:class="${currentPage != i} ? 'page-item' : 'page-item active'">
+            <button onclick="this.form.submit()" name="page" th:value="${i}" class="page-link">[[${i}]]</button>
+          </li>
+        </th:block>
+      </th:block>
+  
+
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <button onclick="this.form.submit()" name="page" th:value="${currentPage+1}" class="page-link" href="#"  title="Next">&rsaquo;</button>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <button onclick="this.form.submit()" name="page" th:value="__${totalPages}__" class="page-link" href="#"  title="Last">&raquo;</button>
+      </li>
+  
+    </ul>
+  </div>
+</th:block>
+</form>
+
+</body>
+</html>
