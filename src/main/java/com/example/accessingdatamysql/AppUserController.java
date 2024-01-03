@@ -28,6 +28,10 @@ public class AppUserController {
   @Autowired 
   private AppUserRepository appUserRepository;
 
+  @GetMapping(value={"","/"})
+	public String welcome() {
+		return "welcome";
+	}
   
   @GetMapping(path="/all")
   public @ResponseBody Iterable<AppUser> getAllUsers() {

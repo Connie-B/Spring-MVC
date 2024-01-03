@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class AppUserDatabaseLoader {
+public class AppUserDatabaseLoader {
 
     @Bean
     CommandLineRunner initAppUserDatabase(AppUserRepository repository) {

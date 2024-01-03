@@ -87,17 +87,18 @@
 		<plugins>
 			<!-- The maven-war-plugin is responsible for collecting all artifact dependencies, 
 			     classes and resources of the web application and packaging them into a web application archive 
-				 (it makes a regular, old-style, deployable war file)
+				 (it makes a regular, old-style, deployable war file) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archive>
-						<! - - exclude the META-INF/maven directory - - >
+						<!-- exclude the META-INF/maven directory -->
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
                 </configuration>
-            </plugin> -->
+            </plugin>
+
 
 
 
