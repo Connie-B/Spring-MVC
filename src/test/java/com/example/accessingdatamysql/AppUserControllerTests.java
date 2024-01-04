@@ -43,7 +43,7 @@ public class AppUserControllerTests {
         users.add(twoUser);
         when(appUserRepository.findAll())
                 .thenReturn(users);
-                this.mockMvc.perform(get("/contacts/all")).andDo(print())
+                this.mockMvc.perform(get("/clients/all")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(users)));
     }
@@ -55,7 +55,7 @@ public class AppUserControllerTests {
         AppUser testUser = new AppUser("theFirstName", "theLastName", "123 main st.", "city", "1234567890", "theEmail");
         when(appUserRepository.findById(any(Integer.class)))
                 .thenReturn(Optional.of(testUser));
-		this.mockMvc.perform(get("/contacts/" + idnumber)).andDo(print())
+		this.mockMvc.perform(get("/clients/" + idnumber)).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(testUser.toString()));
     }

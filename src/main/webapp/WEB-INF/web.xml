@@ -14,17 +14,17 @@
   </context-param>
 
   <servlet>
-    <servlet-name>contacts</servlet-name>
+    <servlet-name>clients</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/contacts-servlet.xml</param-value>
+      <param-value>/WEB-INF/clients-servlet.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>contacts</servlet-name>
+    <servlet-name>clients</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 

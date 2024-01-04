@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 
 @Controller 
-@RequestMapping(path="/contacts") 
+@RequestMapping(path="/clients") 
 public class AppUserController {
 
   @Autowired 
@@ -61,16 +61,16 @@ public class AppUserController {
   private String addPaginationModel(Model model, Page<AppUser> paginated, AppUser searchedFor) {
     model.addAttribute("paginated", paginated);
     model.addAttribute("appUser", searchedFor);
-    return "contacts/contactsList";
+    return "clients/clientsList";
   }
 
   @GetMapping("/find")
   public String initFindForm(Model model) {
     AppUser appUser = new AppUser();
     model.addAttribute("appUser", appUser);
-    return "contacts/contactsSearch";
+    return "clients/clientsSearch";
   }
-  @GetMapping("/findcontacts")
+  @GetMapping("/findclients")
   public String processFindForm(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pagesize, 
       AppUser appUser, BindingResult result, Model model) {
     if (null == appUser.getFirstName()) {
@@ -98,28 +98,27 @@ public class AppUserController {
     String telephoneFindme = appUser.getTelephone().trim().toLowerCase();
     String emailFindme = appUser.getEmail().trim().toLowerCase();
 
-    // find contacts by searching
-    Page<AppUser> paginatedResults = findPaginatedForContactSearch(page, pagesize, firstNameFindme, lastNameFindme, 
+    // find clients by searching
+    Page<AppUser> paginatedResults = findPaginatedForClientSearch(page, pagesize, firstNameFindme, lastNameFindme, 
       addressFindme, cityFindme, telephoneFindme, emailFindme);
     if (paginatedResults.isEmpty()) {
-      // no contacts found
-      // result.rejectValue("lastName", "notFound", "not found");
-      model.addAttribute("message", "User not found");
+      // no clients found
+      model.addAttribute("message", "Client not found");
       model.addAttribute("alertClass", "alert-info");
-      return "contacts/contactsSearch";
+      return "clients/clientsSearch";
     }
     if (paginatedResults.getTotalElements() == 1) {
-      // 1 contact found
+      // 1 client found
       appUser = paginatedResults.iterator().next();
-      return "redirect:/contacts/contactDetails/" + appUser.getId();
+      return "redirect:/clients/clientDetails/" + appUser.getId();
     }
-    // multiple contacts found
+    // multiple clients found
     return addPaginationModel(model, paginatedResults, appUser);
   }
-  private Page<AppUser> findPaginatedForContactSearch(int page, int pageSize, String firstname, String lastname, 
+  private Page<AppUser> findPaginatedForClientSearch(int page, int pageSize, String firstname, String lastname, 
       String address, String city, String telephone, String email) {
     Pageable pageable = PageRequest.of(page - 1, pageSize);
-    Page<AppUser> thePage = appUserRepository.findContact(firstname, lastname, address, city, telephone, email, pageable);
+    Page<AppUser> thePage = appUserRepository.findByDetails(firstname, lastname, address, city, telephone, email, pageable);
     return thePage;
   }
 
@@ -131,66 +130,66 @@ public class AppUserController {
     AppUser appUser = new AppUser();
     model.addAttribute("appUser", appUser);
     model.addAttribute("action", "create");
-    return "contacts/contactsCreateOrEditForm";
+    return "clients/clientsCreateOrEditForm";
   }
   @PostMapping("/new")
   public String createNewUser(@Valid AppUser appUser, BindingResult result, Model model, RedirectAttributes redirAttr) {
     if (result.hasErrors()) {
       model.addAttribute("appUser", appUser);
       model.addAttribute("action", "create");
-      return "contacts/contactsCreateOrEditForm";
+      return "clients/clientsCreateOrEditForm";
     } else {
       this.appUserRepository.save(appUser);
-      redirAttr.addFlashAttribute("message", "New contact added");
+      redirAttr.addFlashAttribute("message", "New client added");
       redirAttr.addFlashAttribute("alertClass", "alert-success");
-      return "redirect:/contacts/contactDetails/" + appUser.getId();
+      return "redirect:/clients/clientDetails/" + appUser.getId();
     }
   }
 
 
-  @GetMapping("/contactDetails/{id}")
+  @GetMapping("/clientDetails/{id}")
   public String showAppUserDetails(@PathVariable("id") int appUserId, Model model) {
     Optional<AppUser> appUser = this.appUserRepository.findById(appUserId);
     if( appUser.isPresent() ) {
         model.addAttribute(appUser.get());
         model.addAttribute("action", "view");
-        return "contacts/contactsCreateOrEditForm";
+        return "clients/clientsCreateOrEditForm";
     } else {
-      // user not found
+      // client not found
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
   }
-  @PostMapping("/contactDetails/{id}")
+  @PostMapping("/clientDetails/{id}")
   public String redirShowAppUserDetails(@PathVariable("id") int appUserId, Model model) {
-        return "redirect:/contacts/contactDetails/{id}";
+        return "redirect:/clients/clientDetails/{id}";
   }
 
 
-  @GetMapping("/contactDetails/{id}/edit")
+  @GetMapping("/clientDetails/{id}/edit")
   public String initUpdateAppUserForm(@PathVariable("id") int appUserId, Model model) {
     Optional<AppUser> appUser = this.appUserRepository.findById(appUserId);
     if( appUser.isPresent() ) {
         model.addAttribute(appUser.get());
         model.addAttribute("action", "edit");
-        return "contacts/contactsCreateOrEditForm";
+        return "clients/clientsCreateOrEditForm";
     } else {
-      // user not found
+      // client not found
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
   }
-  @PostMapping("/contactDetails/{id}/edit")
+  @PostMapping("/clientDetails/{id}/edit")
   public String processUpdateAppUserForm(@Valid AppUser appUser, BindingResult result, @PathVariable("id") int appUserId, Model model, RedirectAttributes redirAttr) {
     if (result.hasErrors()) {
       model.addAttribute("appUser", appUser);
       model.addAttribute("action", "edit");
-      return "contacts/contactsCreateOrEditForm";
+      return "clients/clientsCreateOrEditForm";
     } else {
       // result.getTarget();
       appUser.setId(appUserId);
       this.appUserRepository.save(appUser);
-      redirAttr.addFlashAttribute("message", "Contact updated");
+      redirAttr.addFlashAttribute("message", "Client updated");
       redirAttr.addFlashAttribute("alertClass", "alert-success");
-      return "redirect:/contacts/contactDetails/{id}";
+      return "redirect:/clients/clientDetails/{id}";
     }
   }
 

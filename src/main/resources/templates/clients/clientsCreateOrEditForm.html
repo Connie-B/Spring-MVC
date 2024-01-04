@@ -1,10 +1,10 @@
 <html xmlns:th="https://www.thymeleaf.org"
-  th:replace="~{fragments/layout :: layout (~{::body},'addcontact')}">
+  th:replace="~{fragments/layout :: layout (~{::body},'addclient')}">
 
 <body>
 
-  <h2 th:text="${'create' == action ? 'Add new Contact' : 'edit' == action ? 'Editing Contact' : 'Contact Details'}"
-      th:style="${'edit' == action} ? 'color: red;' : _ ">Contact Details</h2>
+  <h2 th:text="${'create' == action ? 'Add new Client' : 'edit' == action ? 'Editing Client' : 'Client Details'}"
+      th:style="${'edit' == action} ? 'color: red;' : _ ">Client Details</h2>
 
   <div class="col-sm-10">
     <div th:if="${message}" class="alert alert-dismissible" th:classappend="${alertClass}">
@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <form th:object="${appUser}" class="form-horizontal" id="contact-form" method="post">
+  <form th:object="${appUser}" class="form-horizontal" id="client-form" method="post">
     <div class="form-group has-feedback">
       <fieldset th:disabled="${'view' == action}">
         <input th:replace="~{fragments/inputField :: input ('First Name', 'firstName', 'text')}" />
@@ -30,19 +30,19 @@
         <br/>
 
         <a th:if="${'view' == action}"
-          th:href="@{/contacts/contactDetails/__${appUser.id}__/edit}" class="btn btn-primary">Edit Contact</a>
+          th:href="@{/clients/clientDetails/__${appUser.id}__/edit}" class="btn btn-primary">Edit Client</a>
 
         <button th:if="${'view' != action}"
-          class="btn btn-primary" type="submit" >Save Contact</button>
+          class="btn btn-primary" type="submit" >Save Client</button>
 
         <a th:if="${'edit' == action}"
-          th:href="@{/contacts/contactDetails/__${appUser.id}__/edit}" class="btn btn-secondary">Reset</a>    
+          th:href="@{/clients/clientDetails/__${appUser.id}__/edit}" class="btn btn-secondary">Reset</a>    
           
         <a th:if="${'create' == action}"
-          th:href="@{/contacts/listAll}" class="btn btn-primary">Cancel</a>
+          th:href="@{/clients/listAll}" class="btn btn-primary">Cancel</a>
         
         <a th:if="${'edit' == action}"
-          th:href="@{/contacts/contactDetails/__${appUser.id}__}" class="btn btn-primary">Cancel</a>
+          th:href="@{/clients/clientDetails/__${appUser.id}__}" class="btn btn-primary">Cancel</a>
 
       </div>
     </div>

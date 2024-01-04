@@ -16,7 +16,7 @@
 
   <mvc:annotation-driven />
 
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" lazy-init="true">    
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" lazy-init="true">
     <property name="driverClassName" value="${spring.datasource.driver-class-name}" />
     <property name="url" value="${spring.datasource.url}" />
     <property name="username" value="${spring.datasource.username}" />

@@ -20,7 +20,7 @@ public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
 
     @Query("SELECT DISTINCT appuser FROM AppUser appuser WHERE LOWER(appuser.firstName) LIKE :firstName% AND LOWER(appuser.lastName) LIKE :lastName% AND LOWER(appuser.address) LIKE :address% AND LOWER(appuser.city) LIKE :city% AND LOWER(appuser.telephone) LIKE :telephone% AND LOWER(appuser.email) LIKE :email% ")
     @Transactional(readOnly = true)
-    Page<AppUser> findContact(@Param("firstName") String firstName, @Param("lastName") String lastName, @Param("address") String address, 
+    Page<AppUser> findByDetails(@Param("firstName") String firstName, @Param("lastName") String lastName, @Param("address") String address, 
         @Param("city") String city, @Param("telephone") String telephone, @Param("email") String email, Pageable pageable);
 
     @Query("SELECT appuser FROM AppUser appuser WHERE appuser.id =:id")

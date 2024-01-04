@@ -30,7 +30,6 @@ public class CrashController {
 
 	@GetMapping("/oups")
 	public String triggerException() {
-		System.out.println("CRASH CONTROLLER");
 		throw new RuntimeException(
 				"Expected: controller used to showcase what " + "happens when an exception is thrown");
 	}
