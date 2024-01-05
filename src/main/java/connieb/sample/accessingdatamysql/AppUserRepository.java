@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package connieb.sample.accessingdatamysql;
 
 import java.util.Optional;
 

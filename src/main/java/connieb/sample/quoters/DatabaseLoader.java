@@ -1,4 +1,4 @@
- package com.example.quoters;
+ package connieb.sample.quoters;
 
  import org.springframework.boot.CommandLineRunner;
  import org.springframework.context.annotation.Bean;

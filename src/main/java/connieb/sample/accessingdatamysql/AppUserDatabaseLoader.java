@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package connieb.sample.accessingdatamysql;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

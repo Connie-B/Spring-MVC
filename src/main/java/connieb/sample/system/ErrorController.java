@@ -1,4 +1,4 @@
-package com.example.system;
+package connieb.sample.system;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

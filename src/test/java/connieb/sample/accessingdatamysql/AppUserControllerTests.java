@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package connieb.sample.accessingdatamysql;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

@@ -1,4 +1,4 @@
- package com.example.quoters;
+ package connieb.sample.quoters;
 
  import java.util.List;
  import java.util.Random;
